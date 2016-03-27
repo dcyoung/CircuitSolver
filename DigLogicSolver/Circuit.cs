@@ -6,14 +6,19 @@ namespace DigLogicSolver
 {
 	public class Circuit
 	{
-		private List<Node> nodes;
-		private Dictionary<Node, List<Node>> dependencies; 	// mapping edges for dependencies
+		private List<Node> nodes; //all nodes that make up the directed graph (circuit)
+		
+		//adjacency lists to represent the edges of the graph 
+		private Dictionary<Node, List<Node>> dependencies; 	// mapping dependencies (these aren't the direction of the directed edges)
 		private Dictionary<Node, List<Node>> dependents;  // mapping edges for dependents
 
 
 		private Stack<Node> reversePost;
 		private Dictionary<Node, bool> marked;
 
+		/**
+		 * Constructor
+		 */
 		public Circuit ()
 		{
 			nodes = new List<Node> ();
@@ -32,7 +37,7 @@ namespace DigLogicSolver
 			Stack<Node> sortedNodes = this.topologicalSort ();
 
 			//for each node, set the active state by processing the inputs to the node (inputs are 
-			//just the activeState of the dependencies (parent nodes)... which in turn where determined
+			//just the activeState of the dependencies (parent nodes)... which in turn were determined
 			//previously by the activeState of their parents and so on... all the way to the top where the
 			//source processInputs() fxn simply returns the current activeState of the source node.
 			Node next;
@@ -72,7 +77,7 @@ namespace DigLogicSolver
 				marked.Add (n, false);
 			}
 
-			//Perform a Depth First Search (DFS) to topological sort the directed graph
+			//Perform a Depth First Search (DFS) to topologically sort the directed graph
 			foreach( Node n in this.nodes )
 			{
 				if(!marked[n])
